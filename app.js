@@ -1,6 +1,6 @@
 const greet = require("./greet");
 
-// 1.1
+// // 1.1
 // greet.spanish();
 // greet.english();
 
@@ -12,3 +12,5 @@ const greet = require("./greet");
 // const greet3 = require("./patterns/pattern3");
 // greet3.sayHello();
 // greet3.greeting = "New Greeting!";
+// const greet5 = require("./patterns/pattern5").greet;
+// greet5();
