@@ -122,3 +122,32 @@ greet2.sayHello();
 ```
 
 `require` caches (or stores) the results of the require function for any particular filename, which is why it will return the cached instance of `Greet()` even when we require it a second time as `greet2`.
+
+### Pattern 4
+
+Alternatively, you can also export the class instead of an instance of the class.
+
+For eg:
+
+```javascript
+//greet4.js
+
+class Greet {
+  constuctor() {
+    this.greeting = "Hello World!!!";
+    this.sayHello = () => console.log(this.greeting);
+  }
+}
+
+module.exports = Greet;
+```
+
+```javascript
+//app.js
+
+const Greet = require("./greet4");
+const greet = new Greet();
+greet.sayHello();
+
+// => Hello World!!!
+```
