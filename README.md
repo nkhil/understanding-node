@@ -158,3 +158,26 @@ const greet2 = new Greet();
 // ...are their own instances and do not inherit from any other cached instances like in pattern 3.
 ```
 
+### Pattern 5
+
+This pattern is extremely popular and useful.
+
+```javascript
+//greet5.js
+const greeting = "Hello World!!!!";
+
+const greet = () => console.log(greeting);
+
+module.exports = { greet };
+```
+
+```javascript
+const greet = require("greet5").greet;
+
+greet();
+// => Hello World!!!!
+```
+
+Notice that you're only exporting the function `greet` and not touching the `greeting` constant. When greet is executed, `greet` will still have access to `greeting`, but you won't have direct access to `greeting` outside the module.
+
+You're simply revealing only the functions or properties that you want the world to use. This is called `the revealing module pattern`, where you expose only the desired properties and methods to protect code within modules. Keep the module useful while protecting the contents.
