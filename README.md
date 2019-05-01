@@ -1,4 +1,58 @@
-## Patterns in node
+## Require patterns
+
+Different way to structure modules in Node.
+
+**Folder Structure:**
+
+```
+  |____greet
+  | |____spanish.js
+  | |____index.js
+  | |____english.js
+  |____app.js
+```
+
+```javascript
+// spanish.js
+
+const greet = () => console.log("Hola!");
+
+module.exports = greet;
+```
+
+```javascript
+// english.js
+
+const greet = () => console.log("Hello!");
+
+module.exports = greet;
+```
+
+```javascript
+// index.js
+
+const english = require("./english");
+const spanish = require("./spanish");
+
+module.exports = {
+  english,
+  spanish
+};
+```
+
+```javascript
+// app.js
+
+const greet = require("./greet");
+
+greet.english();
+// => Hello!
+
+greet.spanish();
+// => Hola!
+```
+
+## Patterns in Node
 
 ### Pattern 1
 
@@ -68,6 +122,4 @@ greet2.sayHello();
 // => New Greeting!
 ```
 
-The `cacheModule` stores 
-
-`require` (caches or stores) the results of the require function for any particular filename, which is why it will return the cached instance of `Greet()` even when we require it a second time as `greet2`. 
+`require` caches (or stores) the results of the require function for any particular filename, which is why it will return the cached instance of `Greet()` even when we require it a second time as `greet2`.
