@@ -148,6 +148,13 @@ module.exports = Greet;
 const Greet = require("./greet4");
 const greet = new Greet();
 greet.sayHello();
-
 // => Hello World!!!
+
+// You can also make more fresh instances which will not inherit from `greet`
+// For eg:
+const greet1 = new Greet();
+const greet2 = new Greet();
+
+// ...are their own instances and do not inherit from any other cached instances like in pattern 3.
 ```
+
