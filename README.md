@@ -1,4 +1,4 @@
-## Require patterns
+## 1.1 Require patterns
 
 Different way to structure modules in Node.
 
@@ -52,7 +52,7 @@ greet.spanish();
 // => Hola!
 ```
 
-## Patterns in Node
+## 1.2 Module patterns
 
 ### Pattern 1
 
