@@ -43,7 +43,7 @@ module.exports = {
 ```javascript
 // app.js
 
-const greet = require("./greet");
+const greet = require("./index");
 
 greet.english();
 // => Hello!
@@ -93,15 +93,14 @@ greet();
 ```javascript
 //greet3.js
 
-  class Greet(){
-
-    constuctor() {
-      this.greeting = "Hello World!!";
-      this.sayHello = () => console.log(this.greeting)
-    }
+class Greet {
+  constuctor() {
+    this.greeting = "Hello World!!";
+    this.sayHello = () => console.log(this.greeting);
   }
+}
 
-  module.exports = new Greet();
+module.exports = new Greet();
 ```
 
 ```javascript
