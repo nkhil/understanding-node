@@ -94,6 +94,47 @@ emtr.emit("greet");
 
 Gives us the same result as above.
 
+Replying on strings to be the basis for logic in your code can be problematic and is called a `magic string`, a string that has some special meaning in your code. This is bad because it makes it easy for a typo to cause a bug - and it's something that is hard for tools (like VS Code for eg) to help us find.
+
+**Here's one way to deal with that**
+
+Let's remove the fact that we're relying on typing the string correctly without any help from a debugger.
+
+**Creating a new module**
+
+```javascript
+//config.js
+
+module.exports = {
+  events: {
+    GREET: "greet",
+    FILESAVED: "filesaved",
+    FILEOPENED: "fileopened"
+  }
+};
+```
+
+```javascript
+//app.js
+
+const eventConfig = require("./config").events;
+const Emitter = require("events");
+
+var emtr = new Emitter();
+
+emtr.on(eventConfig.GREET, () => console.log("something happened"));
+
+emtr.on(eventConfig.GREET, () => console.log("a greeting occured"));
+
+console.log("Hello!");
+
+emtr.emit(eventConfig.GREET);
+
+//=>Hello!
+//=>something happened
+//=>a greeting occured
+```
+
 ## 1.1 Require patterns
 
 Different way to structure modules in Node.
