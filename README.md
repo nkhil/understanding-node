@@ -1,3 +1,99 @@
+## Problems that node solved (or added to the V8 engine)
+
+**1. Provided better ways to organise code into reusable pieces**
+
+For eg: `module.exports` and `require`
+
+**2. Ways to deal with files**
+
+For eg: `fs`
+
+## Events & event emitter
+
+An event is something that has happened in an app that you can respond to.
+
+In node, we can talk about 2 different kinf of events:
+
+**System events**
+(comes from the C++ core) that deals with events coming from the computer system. For eg: 'finished reading a file', 'file is open', 'data received from the internet' etc.
+
+**Custom Events**
+(comes from the event emitter inside JavaScript core).
+
+The JS side is 'faking it' i.e. they're not real events. JS doesn't have an `event` object. We can fake it with an event library that the `node event emitter` uses.
+
+### Building your own event emitter to understand node's event emitter
+
+```javascript
+//emitter.js
+
+class Emitter {
+  constructor() {
+    this.events = {};
+  }
+
+  on(type, listener) {
+    this.events[type] = this.events[type] || [];
+    this.events[type].push(listener);
+  }
+
+  emit(type) {
+    if (this.events[type]) {
+      this.events[type].forEach(listener => listener());
+    }
+  }
+}
+
+module.exports = Emitter;
+```
+
+```javascript
+//app.js
+
+const Emitter = require("./emitter");
+
+var emtr = new Emitter();
+
+emtr.on("greet", () => console.log("something happened"));
+
+emtr.on("greet", () => console.log("a greeting occured"));
+
+console.log("Hello!");
+
+emtr.emit("greet");
+
+//=>Hello!
+//=>something happened
+//=>a greeting occured
+```
+
+The `event emitter` in node follows a similar idea.
+
+### Using the node.js event emitter
+
+```javascript
+//app.js
+
+// call node's emitter instead of the one built above
+const Emitter = require("events");
+
+var emtr = new Emitter();
+
+emtr.on("greet", () => console.log("something happened"));
+
+emtr.on("greet", () => console.log("a greeting occured"));
+
+console.log("Hello!");
+
+emtr.emit("greet");
+
+//=>Hello!
+//=>something happened
+//=>a greeting occured
+```
+
+Gives us the same result as above.
+
 ## 1.1 Require patterns
 
 Different way to structure modules in Node.
