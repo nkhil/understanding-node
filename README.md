@@ -1,3 +1,5 @@
+_These are notes taken by me while doing a couple of online courses and reading the node documentation. These might not be entirely straightforward for you. If you spot any inaccuracies, please feel free to make a PR._
+
 ## Problems that node solved (or added to the V8 engine)
 
 **1. Provided better ways to organise code into reusable pieces**
@@ -20,7 +22,7 @@ In node, we can talk about 2 different kinf of events:
 **Custom Events**
 (comes from the event emitter inside JavaScript core).
 
-The JS side is 'faking it' i.e. they're not real events. JS doesn't have an `event` object. We can fake it with an event library that the `node event emitter` uses.
+these are events are technically 'faking it' i.e. they're not real events. JS doesn't have an `event` object. We can fake it with an event library that the `node event emitter` uses.
 
 ### Building your own event emitter to understand node's event emitter
 
@@ -96,7 +98,7 @@ Gives us the same result as above.
 
 **The magic string problem**
 
-Relying on strings to be the basis for logic in your code can be problematic. This is referred to a `magic string`, a string that has some special meaning in your code. This is bad because it makes it easy for a typo to cause a bug - and it's something that is hard for tools (like VS Code for eg) to help us find.
+Relying on strings to be the basis for logic in your code can be problematic. This is referred to **`a magic string`**, a string that has some special meaning in your code. This is bad because it makes it easy for a typo to cause a bug - and it's something that is hard for tools (like VS Code for eg) to help us find.
 
 **Here's one pattern to deal with that**
 
@@ -138,6 +140,58 @@ emtr.emit(eventConfig.GREET);
 ```
 
 This ensures that the errors in the code will give us better error messages.
+
+## Inheriting from the event emitter
+
+Within `util.js` (part of the node library), there's a method called `inherits` that can help with this.
+
+`inherits` takes 2 constructors `ctor` and `superCtor`.
+
+**ctor**: a function constructor upon which you want to add new methods and properties to be available to objects created with it.
+
+**superCtor**: The super constructor where the properties and methods you want to be made available to your `ctor` object sit.
+
+For eg:
+
+```javascript
+//app.js
+
+const EventEmitter = require("events");
+const util = require("util");
+
+// Declare a Greetr object
+class Greetr {
+  constructor() {
+    this.greeting = "Hello world!";
+  }
+}
+
+// Give Greetr methods from EventEmitter
+util.inherits(Greetr, EventEmitter);
+
+// Add a greet method on Greetr's prototype
+// use the emit method that's inherited from EventEmitter
+Greetr.prototype.greet = function() {
+  console.log(this.greeting);
+  this.emit("greet");
+};
+
+const greetr1 = new Greetr();
+
+// Use the on method inherited from EventEmitter
+greetr1.on("greet", () => console.log("someone greeted"));
+
+greetr1.greet();
+
+//=> Hello World!
+//=> someone greeted
+```
+
+The chain of events when `greetr1.greet()` is called is:
+
+- The `console.log()` is called giving us `Hello World!`.
+- `emit` is called, which checks to see if the `greet` argument that's passed to it, already exists inside the `events` object in its constructor.
+- In this case, as `greetr1.on` is called with `greet` as the first argument, emit then triggers a call to the other argument passed into `greetr1.on`, which in this case logs `someone greeted` to the console.
 
 ## 1.1 Require patterns
 
