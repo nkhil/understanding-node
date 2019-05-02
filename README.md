@@ -94,13 +94,15 @@ emtr.emit("greet");
 
 Gives us the same result as above.
 
-Replying on strings to be the basis for logic in your code can be problematic and is called a `magic string`, a string that has some special meaning in your code. This is bad because it makes it easy for a typo to cause a bug - and it's something that is hard for tools (like VS Code for eg) to help us find.
+**The magic string problem**
 
-**Here's one way to deal with that**
+Relying on strings to be the basis for logic in your code can be problematic. This is referred to a `magic string`, a string that has some special meaning in your code. This is bad because it makes it easy for a typo to cause a bug - and it's something that is hard for tools (like VS Code for eg) to help us find.
+
+**Here's one pattern to deal with that**
 
 Let's remove the fact that we're relying on typing the string correctly without any help from a debugger.
 
-**Creating a new module**
+**Creating a config module**
 
 ```javascript
 //config.js
@@ -134,6 +136,8 @@ emtr.emit(eventConfig.GREET);
 //=>something happened
 //=>a greeting occured
 ```
+
+This ensures that the errors in the code will give us better error messages.
 
 ## 1.1 Require patterns
 
