@@ -15,15 +15,37 @@
 // const greet5 = require("./patterns/pattern5").greet;
 // greet5();
 
-const eventConfig = require("./config").events;
-const Emitter = require("events");
+// const eventConfig = require("./config").events;
+// const Emitter = require("events");
 
-var emtr = new Emitter();
+// var emtr = new Emitter();
 
-emtr.on(eventConfig.GREET, () => console.log("something happened"));
+// emtr.on(eventConfig.GREET, () => console.log("something happened"));
 
-emtr.on(eventConfig.GREET, () => console.log("a greeting occured"));
+// emtr.on(eventConfig.GREET, () => console.log("a greeting occured"));
 
-console.log("Hello!");
+// console.log("Hello!");
 
-emtr.emit(eventConfig.GREET);
+// emtr.emit(eventConfig.GREET);
+
+const EventEmitter = require("events");
+const util = require("util");
+
+class Greetr {
+  constructor() {
+    this.greeting = "Hello world!";
+  }
+}
+
+util.inherits(Greetr, EventEmitter);
+
+Greetr.prototype.greet = function() {
+  console.log(this.greeting);
+  this.emit("greet");
+};
+
+const greetr1 = new Greetr();
+
+greetr1.on("greet", () => console.log("someone greeted"));
+
+greetr1.greet();
