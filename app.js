@@ -1,4 +1,4 @@
-const greet = require("./greet");
+// const greet = require("./greet");
 
 // // 1.1
 // greet.spanish();
@@ -14,3 +14,15 @@ const greet = require("./greet");
 // greet3.greeting = "New Greeting!";
 // const greet5 = require("./patterns/pattern5").greet;
 // greet5();
+
+const Emitter = require("events");
+
+var emtr = new Emitter();
+
+emtr.on("greet", () => console.log("something happened"));
+
+emtr.on("greet", () => console.log("a greeting occured"));
+
+console.log("Hello!");
+
+emtr.emit("greet");
