@@ -15,14 +15,15 @@
 // const greet5 = require("./patterns/pattern5").greet;
 // greet5();
 
+const eventConfig = require("./config").events;
 const Emitter = require("events");
 
 var emtr = new Emitter();
 
-emtr.on("greet", () => console.log("something happened"));
+emtr.on(eventConfig.GREET, () => console.log("something happened"));
 
-emtr.on("greet", () => console.log("a greeting occured"));
+emtr.on(eventConfig.GREET, () => console.log("a greeting occured"));
 
 console.log("Hello!");
 
-emtr.emit("greet");
+emtr.emit(eventConfig.GREET);
