@@ -193,6 +193,44 @@ The chain of events when `greetr1.greet()` is called is:
 - `emit` is called, which checks to see if the `greet` argument that's passed to it, already exists inside the `events` object in its constructor.
 - In this case, as `greetr1.on` is called with `greet` as the first argument, emit then triggers a call to the other argument passed into `greetr1.on`, which in this case logs `someone greeted` to the console.
 
+## Inheriting from the event emitter 2
+
+It seems like `util.inherits()` is discouraged.
+
+**From the [documentation](https://nodejs.org/docs/latest/api/util.html#util_util_inherits_constructor_superconstructor)**
+
+> Usage of util.inherits() is discouraged. Please use the ES6 class and extends keywords to get language level inheritance support
+
+Here's how to use the `extends` keyword, and to call `super()` to give your `Child` class access to the constructor properties on the super class.
+
+```javascript
+//app.js
+
+class Parent {
+  constructor() {
+    this.age = 23;
+  }
+
+  sayHello() {
+    console.log("Hello");
+  }
+}
+
+class Child extends Parent {
+  constructor() {
+    super();
+    this.name = "Rick";
+  }
+}
+
+const child = new Child();
+child.sayHello();
+console.log(child.age);
+
+//=> Hello
+//=> 23
+```
+
 ## `.call` in JavaScript
 
 ```javascript
