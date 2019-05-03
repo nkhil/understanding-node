@@ -28,24 +28,47 @@
 
 // emtr.emit(eventConfig.GREET);
 
-const EventEmitter = require("events");
-const util = require("util");
+// const EventEmitter = require("events");
+// const util = require("util");
 
-class Greetr {
-  constructor() {
-    this.greeting = "Hello world!";
+// class Greetr {
+//   constructor() {
+//     this.greeting = "Hello world!";
+//   }
+// }
+
+// util.inherits(Greetr, EventEmitter);
+
+// Greetr.prototype.greet = function() {
+//   console.log(this.greeting);
+//   this.emit("greet");
+// };
+
+// const greetr1 = new Greetr();
+
+// greetr1.on("greet", () => console.log("someone greeted"));
+
+// greetr1.greet();
+
+// const obj = {
+//   name: "James",
+//   greet: function() {
+//     console.log(`Hello ${this.name}`);
+//   }
+// };
+
+// obj.greet();
+// obj.greet.call({ name: "Jane" });
+
+const obj = {
+  name: "James",
+  greet: function(year, age) {
+    console.log(
+      `My name is ${
+        this.name
+      }. I am ${age} year(s) old and I was born in ${year}`
+    );
   }
-}
-
-util.inherits(Greetr, EventEmitter);
-
-Greetr.prototype.greet = function() {
-  console.log(this.greeting);
-  this.emit("greet");
 };
-
-const greetr1 = new Greetr();
-
-greetr1.on("greet", () => console.log("someone greeted"));
-
-greetr1.greet();
+obj.greet(1987, 31);
+obj.greet.call({ name: "Jane" }, 1998, 19);
