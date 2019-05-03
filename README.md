@@ -14,7 +14,7 @@ For eg: `fs`
 
 An event is something that has happened in an app that you can respond to.
 
-In node, we can talk about 2 different kinf of events:
+In node, we can talk about 2 different kinds of events:
 
 **System events**
 (comes from the C++ core) that deals with events coming from the computer system. For eg: 'finished reading a file', 'file is open', 'data received from the internet' etc.
@@ -54,7 +54,7 @@ module.exports = Emitter;
 
 const Emitter = require("./emitter");
 
-var emtr = new Emitter();
+const emtr = new Emitter();
 
 emtr.on("greet", () => console.log("something happened"));
 
@@ -192,6 +192,101 @@ The chain of events when `greetr1.greet()` is called is:
 - The `console.log()` is called giving us `Hello World!`.
 - `emit` is called, which checks to see if the `greet` argument that's passed to it, already exists inside the `events` object in its constructor.
 - In this case, as `greetr1.on` is called with `greet` as the first argument, emit then triggers a call to the other argument passed into `greetr1.on`, which in this case logs `someone greeted` to the console.
+
+## `.call` in JavaScript
+
+```javascript
+// app.js
+const obj = {
+  name: "James",
+  greet: function() {
+    console.log(`Hello ${this.name}`);
+  }
+};
+
+obj.greet();
+//=> Hello James
+```
+
+You can also use `.call` on an object to invoke it, and it works just like using parenthesis
+
+```javascript
+obj.greet();
+//=> Hello James
+obj.greet.call;
+//=> Hello James
+```
+
+However, you can also pass in an argument via the `call` method to change what the keyword `this` refers to when that function runs.
+
+For eg:
+
+```javascript
+obj.greet.call({ name: "Jane" });
+
+//=> Hello Jane
+```
+
+In case the original function takes arguments, here's how you pass them in.
+
+```javascript
+// app.js
+
+const obj = {
+  name: "James",
+  greet: function(year, age) {
+    console.log(
+      `My name is ${
+        this.name
+      }. I am ${age} year(s) old and I was born in ${year}`
+    );
+  }
+};
+
+obj.greet.call({ name: "Jane" }, 1998, 19);
+
+//=> My name is Jane. I am 19 years old and I was born in 1998
+
+obj.greet(1987, 31);
+
+//=> My name is James. I am 31 years old and I was born in 1987
+```
+
+## `.apply` in JavaScript
+
+Similar to using `.call` above, `.apply` can be used like so:
+
+```javascript
+obj.greet();
+//=> Hello James
+
+obj.greet.call;
+//=> Hello James
+
+obj.greet.apply;
+//=> Hello James
+```
+
+However, if the original function has parametres, you pass it as an array.
+
+```javascript
+// app.js
+
+const obj = {
+  name: "James",
+  greet: function(year, age) {
+    console.log(
+      `My name is ${
+        this.name
+      }. I am ${age} year(s) old and I was born in ${year}`
+    );
+  }
+};
+
+obj.greet.apply({ name: "Jane" }, [1998, 19]);
+
+//=> My name is Jane. I am 19 years old and I was born in 1998
+```
 
 ## 1.1 Require patterns
 
