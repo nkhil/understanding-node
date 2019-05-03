@@ -60,15 +60,38 @@
 // obj.greet();
 // obj.greet.call({ name: "Jane" });
 
-const obj = {
-  name: "James",
-  greet: function(year, age) {
-    console.log(
-      `My name is ${
-        this.name
-      }. I am ${age} year(s) old and I was born in ${year}`
-    );
+// const obj = {
+//   name: "James",
+//   greet: function(year, age) {
+//     console.log(
+//       `My name is ${
+//         this.name
+//       }. I am ${age} year(s) old and I was born in ${year}`
+//     );
+//   }
+// };
+// obj.greet(1987, 31);
+// obj.greet.call({ name: "Jane" }, 1998, 19);
+
+// const util = require("util");
+
+class Parent {
+  constructor() {
+    this.age = 23;
   }
-};
-obj.greet(1987, 31);
-obj.greet.call({ name: "Jane" }, 1998, 19);
+
+  sayHello() {
+    console.log("Hello");
+  }
+}
+
+class Child extends Parent {
+  constructor() {
+    super();
+    this.name = "Rick";
+  }
+}
+
+const child = new Child();
+child.sayHello();
+console.log(child.age);
