@@ -509,3 +509,36 @@ greet();
 Notice that you're only exporting the function `greet` and not touching the `greeting` constant. When greet is executed, `greet` will still have access to `greeting`, but you won't have direct access to `greeting` outside the module.
 
 You're simply revealing only the functions or properties that you want the world to use. This is called `the revealing module pattern`, where you expose only the desired properties and methods to protect code within modules. Keep the module useful while protecting the contents.
+
+## Handling errors in your code[](#errorhandling)
+
+Usually, you'd use the `fetch` method inside `async` functions, and have `try / catch` blocks to catch your errors.
+
+A useful pattern is to not have the `try / catch` block to make your code more readable. When you call your method, wrap it in a helper method that takes care of catching your errors.
+
+```javascript
+// errorHandlers.js
+exports.catchErrors = fn => {
+  return function(req, res, next) {
+    return fn(req, res, next).catch(next);
+  };
+};
+```
+
+```javascript
+//controller.js
+
+exports.doStuff = async (req, res) => {
+  const names = await Name.find();
+  res.render("names", { title: "names", names });
+};
+```
+
+```javascript
+//router.js
+
+const { catchErrors } = require("../handlers/errorHandlers");
+const controller = require("../controllers/controller");
+
+router.get("/", catchErrors(controller.doStuff));
+```
