@@ -10,6 +10,34 @@ For eg: `module.exports` and `require`
 
 For eg: `fs`
 
+## Event driven non blocking I/O in V8 JavaScript
+
+We know that V8 is embedded inside of node, and that's what is executing the JavaScript code. The I/O stuff is happening at the OS level (things like opening files, sending information over http etc), so the event driven part is where the OS is being asked to do things, which in turn returns the events to the `libuv event loop`. And because the JS code can continue to run (using the V8 engine) while `libuv` can do the OS level work - it's referred to as `non blocking`. 
+
+System events handled inside the C++ core are handled by a C library called **Libuv**. 
+
+[![Untitled-2.jpg](https://i.postimg.cc/DZDtcj0W/Untitled-2.jpg)](https://postimg.cc/FdyWrxjm)
+
+The V8 engine runs the code synchronously - one line of code at a time, as functions are called etc. 
+
+Libuv is written to deal with events happening in the operating system. Libuv interfaces with the OS. Libuv has a queue of events that have completed - note that this happens at the same time that the V8 engine is executing its code. 
+
+At some point, the operating system will place an event (response) on Libuv's event stack. 
+
+Libuv will then see that something is complete, it processes it and runs a callback i.e. code that is meant to be run when an event completes. 
+
+The callback will involve JS code running. But it will run only when the V8 engine has completed doing its operations. 
+
+The entire process is asynchronous, as there are things happening inside V8 as well as Libuv, making it event driven and non blocking. 
+
+### Quick aside on blocking Vs non-blocking code
+
+An example of blocking process would be if calling a function that was responsible for getting and reading a file, and waiting for that function to complete before going further. 
+
+Non-blocking process means that you can delegate the task of file fetching to Libuv, and V8 can continue onto the next line or block.
+
+
+
 ## Events & event emitter
 
 An event is something that has happened in an app that you can respond to.
